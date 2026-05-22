@@ -2,8 +2,8 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.stateVersion = 5;
 
-  nixpkg.config.allowUnfree = true;
-  nix.settings.experimental-feature = "nix-command flakes"
+  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = "nix-command flakes";
   system.defaults = {
     dock = {
       autohide = true;
@@ -12,13 +12,12 @@
     };
     finder = {
       AppleShowAllExtensions = true;
-      FxEnableExtensionChangeWarning = true;
+      FXEnableExtensionChangeWarning = true;
     };
     trackpad = {
       Clicking = true;
       TrackpadThreeFinderDrag = true;
-    }
+    };
   };
-  
   programs.zsh.enable = true;
 }

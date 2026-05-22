@@ -20,7 +20,7 @@
       nixpkgs.hostPlatform = "aarch64-darwin";
       fonts.packages = with pkgs;[
         
-      ]
+      ];
     };
   in
   {

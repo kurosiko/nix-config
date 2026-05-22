@@ -13,6 +13,6 @@
       focus_follows_mouse = "autofocus";
       window_placement = "second_child";
       
-    }
-  }
+    };
+  };
 }
