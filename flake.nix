@@ -10,22 +10,14 @@
   };
 
   outputs = inputs@{ flake-parts, nixpkgs, nix-darwin, self }:
-    let
-      # Change this to your hostname (scutil --get LocalHostName)
-      host = "WindowsVista";
-    in
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "aarch64-darwin"
         "x86_64-darwin"
       ];
 
-      perSystem = { pkgs, ... }: {
-        # perSystem を使えば将来パッケージや devShell もここに書ける
-      };
-
       flake = {
-        darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
+        darwinConfigurations.default = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           specialArgs = { inherit self; };
           modules = [

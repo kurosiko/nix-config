@@ -14,30 +14,24 @@ nix-darwin system configuration for macOS.
 
 ## Usage
 
-### Build and switch (apply changes)
-
 ```bash
-nix run nix-darwin -- switch --flake .#WindowsVista
+nix run nix-darwin -- switch --flake .#default
 ```
 
-### Rebuild on config change
+Or after the first switch:
 
 ```bash
-nix run nix-darwin -- switch --flake .#WindowsVista
+darwin-rebuild switch --flake .#default
 ```
 
 ### Update flake inputs
 
 ```bash
 nix flake update
-nix run nix-darwin -- switch --flake .#WindowsVista
+darwin-rebuild switch --flake .#default
 ```
 
 ## Prerequisites
 
 - [Nix](https://determinate.systems/nix-installer/) with flakes enabled
 - [nix-darwin](https://github.com/LnL7/nix-darwin)
-
-## Hostname
-
-The current darwin configuration is defined for host `WindowsVista`. Change it in `flake.nix` to match your machine's hostname (`scutil --get LocalHostName`).
