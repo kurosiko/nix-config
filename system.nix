@@ -13,6 +13,7 @@
     tmux
     figlet
     yazi
+    gh
   ];
 
   fonts.packages = with pkgs; [
