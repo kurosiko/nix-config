@@ -1,35 +1,38 @@
 {
-  description = "nix-darwin flake for yabai setup";
+  description = "nix-darwin flake";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
   };
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
-  let
-    configuration = { pkgs, ... }: {
-      environment.systemPackages = with pkgs;
-      [
-        vim
-        ffmpeg
+
+  outputs = inputs@{ flake-parts, nixpkgs, nix-darwin, self }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "aarch64-darwin"
+        "x86_64-darwin"
       ];
-      nix.settings.experimental-features = "nix-command flakes";
-      system.configurationRevision = self.rev or self.dirtyRev or null;
-      system.stateVersion = 6;
-      system.primaryUser = "kurosiko";
-      nixpkgs.hostPlatform = "aarch64-darwin";
-      fonts.packages = with pkgs;[
-        
-      ];
+
+      perSystem = { pkgs, ... }: {
+        # perSystem を使えば将来パッケージや devShell もここに書ける
+      };
+
+      flake = {
+        darwinConfigurations = {
+          WindowsVista = nix-darwin.lib.darwinSystem {
+            system = "aarch64-darwin";
+            specialArgs = { inherit self; };
+            modules = [
+              ./system.nix
+              ./mac.nix
+              ./yabai.nix
+              ./skhd.nix
+            ];
+          };
+        };
+      };
     };
-  in
-  {
-    darwinConfigurations."macos" = nix-darwin.lib.darwinSystem {
-      modules = [
-        configuration
-        ./mac.nix
-        ./yabai.nix
-      ];
-    };
-  };
 }
