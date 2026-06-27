@@ -10,6 +10,10 @@
   };
 
   outputs = inputs@{ flake-parts, nixpkgs, nix-darwin, self }:
+    let
+      # Change this to your hostname (scutil --get LocalHostName)
+      host = "WindowsVista";
+    in
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "aarch64-darwin"
@@ -21,17 +25,15 @@
       };
 
       flake = {
-        darwinConfigurations = {
-          WindowsVista = nix-darwin.lib.darwinSystem {
-            system = "aarch64-darwin";
-            specialArgs = { inherit self; };
-            modules = [
-              ./system.nix
-              ./mac.nix
-              ./yabai.nix
-              ./skhd.nix
-            ];
-          };
+        darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = { inherit self; };
+          modules = [
+            ./system.nix
+            ./mac.nix
+            ./yabai.nix
+            ./skhd.nix
+          ];
         };
       };
     };
