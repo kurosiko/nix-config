@@ -4,6 +4,10 @@
   system.stateVersion = 6;
   nixpkgs.hostPlatform = "aarch64-darwin";
 
+  environment.variables = {
+    NIX_BUILD_SHELL = "${pkgs.zsh}/bin/zsh";
+  };
+
   environment.systemPackages = with pkgs; [
     vim
     ffmpeg
